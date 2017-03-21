@@ -1,19 +1,20 @@
 angular.module('mwFormUtils.responseUtils', [])
-    .factory('mwFormResponseUtils', function mwFormResponseMergerFactory() {
+	.constant('MW_QUESTION_TYPES_WITH_DEFAULT_ANSWER', [
+		'text',
+		'textarea',
+		'number',
+		'date',
+		'time',
+		'email',
+		'range',
+		'url'
+	])
+    .factory('mwFormResponseUtils', function mwFormResponseMergerFactory(MW_QUESTION_TYPES_WITH_DEFAULT_ANSWER) {
 
         var service = {};
 
         //Question types whose response can be extracted with the .answer property. 
-        var questionTypesWithDefaultAnswer = [
-            'text',
-            'textarea',
-            'number',
-            'date',
-            'time',
-            'email',
-            'range',
-            'url'
-        ];
+        var questionTypesWithDefaultAnswer = MW_QUESTION_TYPES_WITH_DEFAULT_ANSWER;
 
         service.$getObjectByIdMap = function (objectList, mappingFn) {
             var objectById = {};

@@ -95,8 +95,12 @@
 
 
             },
+			"autofills":{
+				"firstName": "First name"
+			},
             "text": "Question text",
             "type": "Question type",
+            "autofill": "Autofill",
             "required": "Required",
             "preview":{
                 "text":"Short answer text",

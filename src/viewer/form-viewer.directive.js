@@ -13,12 +13,11 @@ angular.module('mwFormViewer').directive('mwFormViewer', function () {
             formStatus: '=?', //wrapper for internal angular form object
             onSubmit: '&',
             api: '=?'
-
         },
         templateUrl: 'mw-form-viewer.html',
         controllerAs: 'ctrl',
         bindToController: true,
-        controller: function($timeout, $interpolate){
+        controller: function($timeout, $interpolate, mwAutofillService, MW_QUESTION_TYPES_WITH_AUTOFILL, MW_QUESTION_TYPES_WITH_DEFAULT_ANSWER){
             var ctrl = this;
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
@@ -73,6 +72,27 @@ angular.module('mwFormViewer').directive('mwFormViewer', function () {
 
                     }
                 }
+
+				var autofillSource = mwAutofillService.getAutofillSource();
+				if (autofillSource) {
+					angular.forEach(ctrl.formData.pages, function(page) {
+						angular.forEach(page.elements, function(element) {
+							var question = element.question;
+							if (question && question.autofill && autofillSource[question.autofill]) {
+								var autofill = autofillSource[question.autofill];
+								ctrl.responseData[question.id] = ctrl.responseData[question.id] || {};
+
+								if (!ctrl.responseData[question.id].answer) {
+									if (MW_QUESTION_TYPES_WITH_AUTOFILL.indexOf(question.type) !== -1) {
+										if (MW_QUESTION_TYPES_WITH_DEFAULT_ANSWER.indexOf(question.type) !== -1) {
+											ctrl.responseData[question.id].answer = autofill;
+										}
+									}
+								}
+							}
+						});
+					});
+				}
             };
 
             ctrl.submitForm = function(){

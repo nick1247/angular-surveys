@@ -6,7 +6,7 @@ angular.module('app', ['ui.bootstrap', 'mwFormBuilder', 'mwFormViewer', 'mwFormU
         });
         $translateProvider.preferredLanguage('en');
     })
-    .controller('DemoController', function($q,$http, $translate, mwFormResponseUtils) {
+    .controller('DemoController', function($q,$http, $translate, mwFormResponseUtils, mwAutofillService) {
 
         var ctrl = this;
         ctrl.mergeFormWithResponse = true;
@@ -40,6 +40,12 @@ angular.module('app', ['ui.bootstrap', 'mwFormBuilder', 'mwFormViewer', 'mwFormU
         };
         ctrl.formStatus= {};
         ctrl.responseData={};
+
+		mwAutofillService.setAutofillList(['firstName']);
+		mwAutofillService.setAutofillSource({
+			firstName: 'marat'
+		});
+
         $http.get('response-data.json')
             .then(function(res){
                 ctrl.responseData = res.data;

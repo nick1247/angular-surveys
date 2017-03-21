@@ -24,15 +24,18 @@ angular.module('mwFormBuilder').factory("FormQuestionBuilderId", function(){
         templateUrl: 'mw-form-question-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
-        controller: function($timeout,FormQuestionBuilderId, mwFormBuilderOptions){
+        controller: function($timeout,FormQuestionBuilderId, mwFormBuilderOptions, mwAutofillService){
             var ctrl = this;
-
 
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {
+				ctrl.autofillList = mwAutofillService.getAutofillList();
+
                 ctrl.id = FormQuestionBuilderId.next();
                 ctrl.questionTypes = mwFormBuilderOptions.questionTypes;
+                ctrl.questionTypesWithAutofill = mwFormBuilderOptions.questionTypesWithAutofill;
+				ctrl.showAutofill = mwFormBuilderOptions.questionTypesWithAutofill.indexOf(ctrl.question.type) !== -1;
                 ctrl.formSubmitted=false;
 
                 sortAnswersByOrderNo();

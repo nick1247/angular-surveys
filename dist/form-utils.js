@@ -1,20 +1,59 @@
-angular.module('mwFormUtils', ['mwFormUtils.responseUtils']);
+angular.module('mwFormUtils', ['mwFormUtils.responseUtils'])
+	.constant('MW_QUESTION_TYPES_WITH_AUTOFILL', [
+		'text',
+		'textarea',
+		'number',
+		'date',
+		'time',
+		'email',
+		'range',
+		'url'
+	])
+	.service('mwAutofillService', function () {
+		var autofillList = [];
+
+		this.addAutofillList = function(list) {
+			autofillList = autofillList.concat(list);
+		}
+		this.setAutofillList = function(list) {
+			autofillList = list;
+		}
+		this.clearAutofillList = function() {
+			autofillList = [];
+		}
+		this.getAutofillList = function() {
+			return autofillList;
+		}
+
+		var autofillSource = {};
+
+		this.setAutofillSource = function(source) {
+			autofillSource = source;
+		}
+		this.clearAutofillSource = function() {
+			autofillSource = {};
+		}
+		this.getAutofillSource = function() {
+			return autofillSource;
+		}
+	});
 angular.module('mwFormUtils.responseUtils', [])
-    .factory('mwFormResponseUtils', function mwFormResponseMergerFactory() {
+	.constant('MW_QUESTION_TYPES_WITH_DEFAULT_ANSWER', [
+		'text',
+		'textarea',
+		'number',
+		'date',
+		'time',
+		'email',
+		'range',
+		'url'
+	])
+    .factory('mwFormResponseUtils', ["MW_QUESTION_TYPES_WITH_DEFAULT_ANSWER", function mwFormResponseMergerFactory(MW_QUESTION_TYPES_WITH_DEFAULT_ANSWER) {
 
         var service = {};
 
         //Question types whose response can be extracted with the .answer property. 
-        var questionTypesWithDefaultAnswer = [
-            'text',
-            'textarea',
-            'number',
-            'date',
-            'time',
-            'email',
-            'range',
-            'url'
-        ];
+        var questionTypesWithDefaultAnswer = MW_QUESTION_TYPES_WITH_DEFAULT_ANSWER;
 
         service.$getObjectByIdMap = function (objectList, mappingFn) {
             var objectById = {};
@@ -489,4 +528,4 @@ angular.module('mwFormUtils.responseUtils', [])
         };
 
         return service;
-    });
+    }]);
