@@ -24,7 +24,7 @@
                 <div class="form-group mw-question-autofill" ng-if="ctrl.showAutofill">
                     <mw-label label-for="question-autofill-{{ctrl.id}}" label-class="col-sm-2 control-label"  label-key="mwForm.question.autofill"></mw-label>
                     <div class="col-sm-10 form-inline">
-                        <select ng-attr-id="question-autofill-{{ctrl.id}}" ng-options="'mwForm.question.autofills.'+autofill|translate for autofill in ctrl.autofillList" ng-model="ctrl.question.autofill" class="form-control" ng-disabled="ctrl.readOnly" required></select>
+                        <select ng-attr-id="question-autofill-{{ctrl.id}}" ng-options="'mwForm.question.autofills.'+autofill|translate for autofill in ctrl.autofillList" ng-model="ctrl.question.autofill" class="form-control" ng-disabled="ctrl.readOnly"></select>
                     </div>
                 </div>
                 <div class="form-group mw-question-type" ng-repeat="select in ctrl.options.customQuestionSelects">
